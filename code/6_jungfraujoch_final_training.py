@@ -11,7 +11,7 @@ if __name__ == "__main__":
     filepaths, labels = read_LabelStudio_label_file(label_file)
 
     # train a classifier on the labeled datasetc
-    classifier = ClassificationModel(no_epochs=3)
+    classifier = ClassificationModel(no_epochs=20)
     classifier.fit(image_paths=filepaths, image_labels=labels)
 
     classifier.save_on_disk()
