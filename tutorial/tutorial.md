@@ -158,7 +158,7 @@ Rename the file to `weather_labels_iter0_30.json`.
 ## 4. Train a model and do active learning
 
 Next we will take the exported labels an train an image classification model on them.
-We us a resnet18 as backbone for the classifier.
+We use a resnet18 as backbone for the classifier.
 After training the model, we use it to predict on the full set of images.
 The predictions are stored in a lightly `ClassificationScorer` to calculate active learning scores.
 These scores are needed for sampling another 15 images until we have 45 images.
@@ -199,7 +199,7 @@ ___
 
 If you want to do more active learning loops, repeat steps 4 and 5.
 Don't forget to change the sampling config to choose more images and have another tag name.
-Furthermore, you need to update the name of the .json file with the exported images
+Furthermore, you need to update the name of the .json file with the exported images.
 
 ___
 
