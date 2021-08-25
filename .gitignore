@@ -144,3 +144,5 @@ lightly_outputs
 #ignore eggs
 .eggs
 
+# Ignore saved model
+weather_classifier.pth

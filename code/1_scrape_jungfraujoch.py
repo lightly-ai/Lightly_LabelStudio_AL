@@ -44,13 +44,6 @@ if __name__ == "__main__":
     print(f"Path to metadata file: {output_file_metadata}")
 
     print(f"Use the following command in the next step:")
-
-    print("Command with training on GPU yourself:")
-    lightly_command = f"lightly-magic input_dir={output_dir} new_dataset_name=Weather_Jungfraujoch " \
-                      f"custom_metadata={output_file_metadata} trainer.max_epochs=400 loader.batch_size=176 token=MY_TOKEN"
-    print(lightly_command)
-
-    print("RECOMMENDED: Command using embeddings from pretrained model.")
     lightly_command =f"lightly-magic input_dir={output_dir} new_dataset_name=Weather_Jungfraujoch " \
                      f"custom_metadata={output_file_metadata} trainer.max_epochs=0 token=MY_TOKEN"
     print(lightly_command)
