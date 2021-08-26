@@ -18,14 +18,6 @@ export WEATHER_DIR_RAW=path/to/dataset/weather_raw
 python source/1_scrape_junfraujoch.py
 ```
 
-# `\TODO`
-Think about metadata: Should we explain and use them, ore leave them away.
-They show that the image_id and thus season is mostly unrelated to other stuff
-# `\ENDTODO`
-
-This script also saves metadata, in particular the number of days from the start of the year, for each file.
-The metadata is saved in a .json file. They can be used later in the Lightly Webapp.
-
    
 ## 2. Analyze and subsample the dataset.
 
@@ -33,7 +25,7 @@ First, let's analyze the dataset and its distribution of data using the Lightly 
 You only need to use the `lightly-magic` command posted in the last step and
 put in your token from the Lightly Webapp.
 This will also create embeddings, which are later used for sampling diverse subsets of the dataset.
-Furthermore, it will upload the images, custom metadata and embedings to the Lightly Platform.
+Furthermore, it will upload the images and embedings to the Lightly Platform.
 
 ---
 **NOTE**

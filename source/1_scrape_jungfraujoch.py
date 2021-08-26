@@ -7,7 +7,6 @@ from urllib.request import urlretrieve
 import ssl
 
 from tqdm import tqdm
-from lightly.utils import save_custom_metadata
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -15,10 +14,8 @@ if __name__ == "__main__":
     size = ['s', 'm', ''][1]  # small, medium or large size files
     output_dir = os.environ.get("WEATHER_DIR_RAW_LOCAL")
     Path(output_dir).mkdir(parents=True, exist_ok=True)
-    output_file_metadata = os.path.join(output_dir, "weather_jungfraujoch_metadata.json")
 
 
-    metadata_list = []
 
     start_date = datetime.date(2020, 1, 1)
     end_date = datetime.date(2020, 12, 31)
@@ -36,16 +33,12 @@ if __name__ == "__main__":
         filepath = os.path.join(output_dir, filename)
         try:
             urlretrieve(url, filepath)
-            metadata_list.append((filename, {'days_from_start': int(iter)}))
         except HTTPError:
             print(f"Skipping image at {url}")
 
-    save_custom_metadata(output_file_metadata, metadata_list)
-    print(f"Path to metadata file: {output_file_metadata}")
-
     print(f"Use the following command in the next step:")
     lightly_command =f"lightly-magic input_dir={output_dir} new_dataset_name=Weather_Jungfraujoch " \
-                     f"custom_metadata={output_file_metadata} trainer.max_epochs=0 token=MY_TOKEN"
+                     f"trainer.max_epochs=0 token=MY_TOKEN"
     print(lightly_command)
 
 
