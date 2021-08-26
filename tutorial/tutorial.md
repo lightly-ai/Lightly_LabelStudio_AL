@@ -29,7 +29,7 @@ The metadata is saved in a .json file. They can be used later in the Lightly Web
    
 ## 2. Analyze and subsample the dataset.
 
-First, let's analyze the dataset and its distribution of data using the lightly webapp.
+First, let's analyze the dataset and its distribution of data using the Lightly webapp.
 You only need to use the `lightly-magic` command posted in the last step and
 put in your token from the Lightly Webapp.
 This will also create embeddings, which are later used for sampling diverse subsets of the dataset.
@@ -49,7 +49,6 @@ However, we strongly recommend doing this only when having a CUDA-GPU available.
 In the Lightly Webapp head to the `Embedding` view and choose the UMAP embeddings.
 It is clearly visible, that there is one distinct cluster.
 Inspecting it shows that these images are mostly showing very cloudy weather.
-When clicking on some of the images, the detail view reveals that they have very similar neighbour images.
 
 ![Embedding view of the dataset.](images/jungfrau_embedding_view.png)
 
@@ -76,7 +75,7 @@ reduction to 2 dimensions.
 Last, we want to copy these 30 samples to a new directory on our local disk.
 First, you need to decide where to copy these samples to and export the path as environment variable.
 
-Next, head to the `Download` sections and use the first of the provided CLI command to
+Next, head to the `Download` sections and use the first of the provided CLI commands to
 copy the images without needing to download them.
 Don't forget to replace the `input_dir` and `output_dir` by `input_dir=$WEATHER_DIR_RAW output_dir=$WEATHER_DIR_LABELLED`
 
