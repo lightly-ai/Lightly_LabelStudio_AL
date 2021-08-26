@@ -15,7 +15,7 @@ If you want to see the beauty of the swiss alps in full resolution, go to https:
 # Set the directory the images should be downloaded to.
 export WEATHER_DIR_RAW=path/to/dataset/weather_raw
 # Download the images to the directory you just specified.
-python code/1_scrape_junfraujoch.py
+python source/1_scrape_junfraujoch.py
 ```
 
 # `\TODO`
@@ -173,7 +173,7 @@ and are different to each other and already chosen samples.
 # They are the same as the ones used in the lightly-download command at the end of step 2.
 export LIGHTLY_TOKEN=MY_TOKEN
 export LIGHTLY_DATASET_ID_WEATHER=DATASET_ID
-python code/4_jungfraujoch_active_learning.py
+python source/4_jungfraujoch_active_learning.py
 ```
 
 With the just printed CLI command, you can download the filenames of the newly chosen images
@@ -211,7 +211,7 @@ Then we save the model, so that we can reuse it later.
 ```bash
 # WEATHER_DIR_LABELED must already by set
 # This uses the label file named `weather_labels_iter1_45.json`
-python 6_jungfraujoch_final_training.py
+python source/6_jungfraujoch_final_training.py
 ```
 
 ## 7. Apply the model on new images.
@@ -219,6 +219,6 @@ We load the model just saved on disk and use it to predict the current weather a
 by using the most current webcam image.
 
 ```bash
-python 7_jungfraujoch_prediction.py
+python source/7_jungfraujoch_prediction.py
 ```
        
