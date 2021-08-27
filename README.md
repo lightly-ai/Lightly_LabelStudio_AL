@@ -17,7 +17,7 @@ You also need to know your API token which is shown under your `USERNAME` -> `Pr
 Clone this repo and cd into it.
 Install all python package requirements in the `requirements.txt` file, e.g. with pip.
 ```bash
-#TODO git clone
+git clone https://github.com/lightly-ai/Lightly_LabelStudio_AL.git
 cd Lightly_LabelStudio_AL
 pip install -r requirements.txt
 ```
