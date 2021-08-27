@@ -14,22 +14,25 @@ for showing a complete workflow of creating a machine learning model including A
 Make sure you have an account for the [Lightly Web App](https://app.lightly.ai). 
 You also need to know your API token which is shown under your `USERNAME` -> `Preferences`.
 
+Clone this repo and cd into it.
 Install all python package requirements in the `requirements.txt` file, e.g. with pip.
 ```bash
+#TODO git clone
+cd Lightly_LabelStudio_AL
 pip install -r requirements.txt
 ```
 
 
 ## 1. Download the images
 We want to train a classifier predicting whether a webcam targeting a mountain is showing sunny, cloudy, or very cloudy weather.
-To gather our dataset, we use the webcam at Jungfraujoch targeting the moutain Jungfrau in Switzerland.
+To gather our dataset, we use the webcam at Jungfraujoch targeting the mountain Jungfrau in Switzerland.
 If you want to see the beauty of the swiss alps in full resolution, go to https://www.switch.ch/cam/jungfraujoch/.
 
 First, we decide in which directory we want to save the dataset and export the path to it as environment variable.
 Then we download the images from the webcam hoster using a simple python script.
 It downloads the webcam image at 13:00 for every day in 2020. 
-These 365 images are downloaded at a medium but sufficient resolution with a total size of 28MB.
-If some URLs are down and a few less images are downloaded, the tutorial works nonetheless the same.
+These 365 images are downloaded at a medium but sufficient resolution with a total size of 28 MB.
+If some URLs are down the images are skipped but the tutorial works nonetheless.
 
 
 ```bash
@@ -44,15 +47,17 @@ python source/1_scrape_junfraujoch.py
 
 First, let's analyze the dataset and its distribution of data using the Lightly webapp.
 You only need to use the `lightly-magic` command posted in the last step and
-put in your token from the Lightly Webapp.
-This will also create embeddings, which are later used for sampling diverse subsets of the dataset.
-Furthermore, it will upload the images and embedings to the Lightly Platform.
+put in your token from the [Lightly Web App](https://app.lightly.ai). 
+After logging, the webapp shows your API token under your `USERNAME` -> `Preferences`.
+
+The `lighty-magic` will also create embeddings, which are later used for sampling diverse subsets of the dataset.
+Furthermore, it will upload the images and embeddings to the Lightly Platform.
 
 ---
 **NOTE**
 
 If you want to train an embedding model on this dataset instead of relying on a pretrained model, 
-set the `trainer.max_epochs` to e.g. 100.
+set the `trainer.max_epochs` to a higher value, e.g. 100.
 However, we strongly recommend doing this only when having a CUDA-GPU available.
 
 ---
@@ -90,13 +95,13 @@ First, you need to decide where to copy these samples to and export the path as 
 
 Next, head to the `Download` sections and use the first of the provided CLI commands to
 copy the images without needing to download them.
-Don't forget to replace the `input_dir` and `output_dir` by `input_dir=$WEATHER_DIR_RAW output_dir=$WEATHER_DIR_LABELLED`
+Don't forget to replace the `input_dir` and `output_dir` by `input_dir=$WEATHER_DIR_RAW output_dir=$WEATHER_DIR_LABELED`
 
 ```bash
 # We need to define a directory where the labelled images are copied to.
-export WEATHER_DIR_LABELLED=path/to/dataset/weather_labelled
+export WEATHER_DIR_LABELED=path/to/dataset/weather_labelled
 # Download the filenames of the sample
-lightly-download token=MY_TOKEN dataset_id=DATASET_ID tag_name='Coreset_30' input_dir=$WEATHER_DIR_RAW output_dir=$WEATHER_DIR_LABELLED
+lightly-download token=MY_TOKEN dataset_id=DATASET_ID tag_name='Coreset_30' input_dir=$WEATHER_DIR_RAW output_dir=$WEATHER_DIR_LABELED
 ```
 
 ![Terminal output of lightly-download command.](tutorial/images/jungfrau_lightly_download.png)
@@ -104,7 +109,7 @@ lightly-download token=MY_TOKEN dataset_id=DATASET_ID tag_name='Coreset_30' inpu
 ## 3. Label a subset of images to train a classifier
 
 We do this using the labelling tool **LabelStudio**, which as a browser-based tool hosted on your machine.
-You have alread installed it and can run it from the command line. It needs access to your local files.
+You have already installed it and can run it from the command line. It needs access to your local files.
 
 #### 3.1 Run Label Studio
 
@@ -114,14 +119,14 @@ export LABEL_STUDIO_BASE_DATA_DIR=$WEATHER_DIR_LABELED export LABEL_STUDIO_LOCAL
 
 #### 3.2 Configure Storage
 
-Lets copy the path where the labelled images are stored to your clipboard: Copy the output from
+Let's copy the path where the labelled images are stored to your clipboard: Copy the output from
 ```bash
-echo $WEATHER_DIR_LABELLED
+echo $WEATHER_DIR_LABELED
 ```
 
 Open label studio in your browser and login. Create a new project called e.g. "Weather Jungfrau".
 Then, head to `Settings` -> `Cloud Storage` -> `Add Source Storage` -> `Storage Type`: `Local files`.
-Set the `Absolute local path` to the path you just copied and the file filter to `.*jpg` .
+Set the `Absolute local path` to the path you just copied, and set the file filter to `.*jpg` .
 Set the toggle button `Treat every bucket object as a source file`.
 Then click `Add Storage`. It will show you that you have added a storage.
 Now click on `Sync Storage` to finally load the 30 images.
@@ -169,14 +174,24 @@ Rename the file to `weather_labels_iter0_30.json`.
 
 ## 4. Train a model and do active learning
 
-Next we will take the exported labels an train an image classification model on them.
-We use a resnet18 as backbone for the classifier.
-After training the model, we use it to predict on the full set of images.
-The predictions are stored in a lightly `ClassificationScorer` to calculate active learning scores.
-These scores are needed for sampling another 15 images until we have 45 images.
-We use the CORAL sampler, which combines CORESET and active learning to choose samples
-which have both a high prediction uncertainty
-and are different to each other and already chosen samples.
+Next we will take the exported labels and train an image classification model on them to perform active learning.
+
+The [corresponding script](source/4_jungfraujoch_active_learning.py) does this in 7 steps:
+1. It defines an Active Learning agent connecting to the LightlyAPI. 
+   This agent needs to know your API token and the dataset id, which need to be provided as environment variables.
+2. It reads the label file from LabelStudio with a [helper function](source/read_LabelStudio_label_file.py).
+3. It defines an image classification model as a pytorch CNN. It uses a resnet18 as backbone.
+    If you want to learn more about the model and/or change it to another model, look at the [classification_model.py](source/classification_model.py).
+4. It trains the model for a few epochs on the 30 labeled images.
+5. It predicts with the model on the complete dataset. 
+   The predictions are stored in a lightly `ClassificationScorer` to calculate active learning scores.
+    The scores measure how uncertain the model is in classifying a certain sample.
+6. Another samling is performed, sampling 15 images until we have 45 images.
+   It uses the CORAL sampler, which combines CORESET and active learning to choose samples 
+   which have both a high prediction uncertainty 
+   and are different to each other and already chosen samples.
+7. The newly chosen samples need to be copied to the directory with the labeled images again. 
+    Thus the correspoding `lightly-download` command is defined.
 
 ```bash
 # WEATHER_DIR_RAW and WEATHER_DIR_LABELED must already by set.
@@ -209,16 +224,27 @@ Rename the file to `weather_labels_iter1_45.json`.
 ___
 **NOTE**
 
+**Optional additional steps:**
+
 If you want to do more active learning loops, repeat steps 4 and 5.
-Don't forget to change the sampling config to choose more images and have another tag name.
-Furthermore, you need to update the name of the .json file with the exported images.
+However, you need to change the code at a few places for it:
+1. Change the `preselected_tag_name` to "CORAL_45" in the [ActiveLearningAgent](source/4_jungfraujoch_active_learning.py), line 21.
+2. Change the [SamplerConfig](source/4_jungfraujoch_active_learning.py), line 35 
+to choose more images and have another tag name. E.g. change this line to
+```python
+sampler_config = SamplerConfig(method=SamplingMethod.CORAL, n_samples=60, name="CORAL_60")
+```
+3. After exporting the labels again as .json file, rename it to `weather_labels_iter2_60.json`.
+4. Rename the corresponding line in the [final training file](source/6_jungfraujoch_final_training.py), line 15.
 
 ___
 
 
 ## 6. Train a model on the new labels
-We train the model on all images labeled in the previous active learning iterations.
-Then we save the model, so that we can reuse it later.
+Very similar to the script in step 4, this [script](source/6_jungfraujoch_final_training.py) 
+trains the classification model on all labelled images.
+Thus it is now trained on 45 images, including the 15 ones from the last step having a high active learning score.
+The final trained model is saved on th disk to be used later. 
 
 ```bash
 # WEATHER_DIR_LABELED must already by set

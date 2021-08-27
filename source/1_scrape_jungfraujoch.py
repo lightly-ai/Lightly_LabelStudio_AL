@@ -12,7 +12,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 if __name__ == "__main__":
     size = ['s', 'm', ''][1]  # small, medium or large size files
-    output_dir = os.environ.get("WEATHER_DIR_RAW_LOCAL")
+    output_dir = os.environ.get("WEATHER_DIR_RAW")
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
 
