@@ -186,12 +186,12 @@ The [corresponding script](source/4_jungfraujoch_active_learning.py) does this i
 5. It predicts with the model on the complete dataset. 
    The predictions are stored in a lightly `ClassificationScorer` to calculate active learning scores.
     The scores measure how uncertain the model is in classifying a certain sample.
-6. Another samling is performed, sampling 15 images until we have 45 images.
+6. Another sampling is performed, sampling 15 images until we have 45 images.
    It uses the CORAL sampler, which combines CORESET and active learning to choose samples 
    which have both a high prediction uncertainty 
    and are different to each other and already chosen samples.
 7. The newly chosen samples need to be copied to the directory with the labeled images again. 
-    Thus the correspoding `lightly-download` command is defined.
+    Thus the corresponding `lightly-download` command is defined.
 
 ```bash
 # WEATHER_DIR_RAW and WEATHER_DIR_LABELED must already by set.
@@ -230,7 +230,7 @@ If you want to do more active learning loops, repeat steps 4 and 5.
 However, you need to change the code at a few places for it:
 1. Change the `preselected_tag_name` to "CORAL_45" in the [ActiveLearningAgent](source/4_jungfraujoch_active_learning.py), line 21.
 2. Change the [SamplerConfig](source/4_jungfraujoch_active_learning.py), line 35 
-to choose more images and have another tag name. E.g. change this line to
+to choose more images and have another tag name, e.g., change this line to
 ```python
 sampler_config = SamplerConfig(method=SamplingMethod.CORAL, n_samples=60, name="CORAL_60")
 ```
