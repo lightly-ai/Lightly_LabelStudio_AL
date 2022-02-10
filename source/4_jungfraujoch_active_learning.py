@@ -44,10 +44,4 @@ if __name__ == "__main__":
                   f"tag_name=CORAL_45 input_dir={path_full_dataset} output_dir={path_labeled_set} " \
                   f"exclude_parent_tag=True"
     print(cli_command)
-
-
-    i=0
-
-
-
-
+ 
