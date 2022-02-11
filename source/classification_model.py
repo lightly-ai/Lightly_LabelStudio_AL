@@ -33,7 +33,7 @@ class TorchImageDataset(Dataset):
         if transform is None:
             transform = T.Compose(
                 [
-                    T.Resize((224, 224)),
+                    T.Resize((360, 117)),
                     T.ToTensor(),
                     T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
                 ]
@@ -59,7 +59,14 @@ class TorchImageDataset(Dataset):
 
 
 class ClassificationModel:
-    def __init__(self, num_classes: int = 4, no_epochs=5, **kwargs):
+    def __init__(
+        self, 
+        num_classes: int = 4, 
+        no_epochs: int = 5, 
+        num_workers: int = None,
+        batch_size: int = 16,
+        **kwargs,
+    ):
         # don't forget to initialize base class...
         self.model = torchvision.models.resnet18(
             pretrained=False, progress=True, num_classes=num_classes
@@ -69,6 +76,8 @@ class ClassificationModel:
         self.model.to(self.device)
         self.no_epochs = no_epochs
         self.model_is_trained = False
+        self.num_workers = num_workers or min(8, os.cpu_count())
+        self.batch_size = batch_size
 
     def save_on_disk(self, model_path: str = "./classifier.pth"):
         to_save = {"model": self.model.to("cpu"), "label_names": self.label_names}
@@ -93,9 +102,12 @@ class ClassificationModel:
         dataset = TorchImageDataset(
             image_paths=image_paths, label_names=self.label_names, labels=image_labels
         )
-        num_workers = min(8, os.cpu_count())
+        
         dataloader = torch.utils.data.DataLoader(
-            dataset, batch_size=16, shuffle=True, num_workers=num_workers
+            dataset, 
+            batch_size=self.batch_size, 
+            shuffle=True, 
+            num_workers=self.num_workers,
         )
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.SGD(self.model.parameters(), lr=0.001, momentum=0.9)
@@ -139,7 +151,11 @@ class ClassificationModel:
 
         dataset = TorchImageDataset(image_paths, self.label_names)
 
-        dataloader = DataLoader(dataset, batch_size=16)
+        dataloader = DataLoader(
+            dataset, 
+            batch_size=self.batch_size, 
+            num_workers=self.num_workers,
+        )
         predictions = []
         self.model.eval()
         with torch.no_grad():
