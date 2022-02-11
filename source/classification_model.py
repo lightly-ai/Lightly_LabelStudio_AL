@@ -61,7 +61,7 @@ class TorchImageDataset(Dataset):
 class ClassificationModel:
     def __init__(
         self, 
-        num_classes: int = 4, 
+        num_classes: int = 3, 
         no_epochs: int = 5, 
         num_workers: int = None,
         batch_size: int = 16,
