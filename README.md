@@ -1,7 +1,7 @@
 ## Deprecation Warning
 
 This tutorial uses a deprecated workflow of the Lightly Solution and will break.
-Please refer to the [new documentation and tutorials](https://docs.lightly.ai>) instead.
+Please refer to the [new documentation and tutorials](https://docs.lightly.ai) instead.
 
 ## Tutorial
 This tutorial combines [Lightly](https://www.lightly.ai) and [LabelStudio](https://labelstud.io) 
