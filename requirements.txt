@@ -4,4 +4,4 @@ Pillow~=9.0.0
 lightly~=1.4.6
 tqdm~=4.62.2
 scikit-learn~=1.2.2
-#label-studio~=1.7.2
+label-studio~=1.7.2
