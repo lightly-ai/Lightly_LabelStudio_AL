@@ -1,13 +1,17 @@
 ## Tutorial
-This tutorial combines [Lightly](https://www.lightly.ai) and [LabelStudio](https://labelstud.io) 
-for showing a complete workflow of creating a machine learning model including Active Learning.
-1. It starts with collecting unlabelled data. 
-2. Then it uses Lightly to choose a subset of the unlabelled to be labelled.
-3. This subset is labelled with the help of LabelStudio.
-4. A machine learning model is trained on the labeled data and Active Learning is used to choose the next batch to be labelled.
-5. This batch is labelled again in LabelStudio.
-6. The machine learning model is trained on the updated labelled dataset and achieves better performance.
+This tutorial demonstrates a complete workflow of training a machine learning model with Active Learning using [Lightly](https://www.lightly.ai) and [LabelStudio](https://labelstud.io).
 
+Assume that we have a new unlabelled dataset and we want to train a new model. We do not want to label all samples because not all of them are valuable. Lightly can help select a good subset of samples to kick off labelling and model training. The loop is as follows:
+
+1. Lightly chooses a subset of the unlabelled to be labelled.
+1. This subset is labelled using LabelStudio.
+1. A machine learning model is trained on the labeled data and generates predictions for the entire dataset.
+1. Lightly consumes predictions and performs Active Learning to choose the next batch to be labelled.
+1. This batch is labelled again in LabelStudio.
+1. The machine learning model is trained on the updated labelled dataset and achieves better performance.
+
+
+Let's get started!
 
 ## 0. Installation and Requirements
 Make sure you have an account for the [Lightly Web App](https://app.lightly.ai). 
@@ -39,7 +43,7 @@ dataset2
 Here we have images in 4 weather conditions: `cloudy`, `rain`, `shine`, and `sunrise`.
 
 #### 1.1 Split dataset
-To compare results between iterations, we first split the entire dataset into a full training set and a validation set. The training set will be used to select samples and the validation set will be used to monitor the model's performance.
+To compare results between iterations, we first split the entire dataset into a full training set and a validation set. The training set will be used to select samples and the validation set will be used as "new data" to evaluate the model's performance.
 
 Run the script below to split the dataset:
 ```sh
