@@ -7,7 +7,7 @@ Assume that we have a new unlabelled dataset and we want to train a new model. W
 1. This subset is labelled using LabelStudio.
 1. A machine learning model is trained on the labeled data and generates predictions for the entire dataset.
 1. Lightly consumes predictions and performs Active Learning to choose the next batch to be labelled.
-1. This batch is labelled again in LabelStudio.
+1. This new batch is labelled in LabelStudio.
 1. The machine learning model is trained on the updated labelled dataset and achieves better performance.
 
 
