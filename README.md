@@ -77,7 +77,7 @@ s3://bucket/
 
 ## 2. Select the first batch of samples for labelling
 
-Now, with all unlabelled data samples in your training dataset, we want to select a good subset, label them, and train our classification model with them. Lightly can do this selection for you in a simple way. The script [run_first_selection.py](./source/run_first_selection.py) does the job for you. You need to first setup Lightly Worker in your machine and put the correct configuration values in the script. Please refer to [Install Lightly](https://docs.lightly.ai/docs/install-lightly) and [Set Up Your First Dataset](https://docs.lightly.ai/docs/set-up-your-first-dataset) for more details.
+Now, with all unlabelled data samples in your training dataset, we want to select a good subset, label them, and train our classification model with them. Lightly can do this selection for you in a simple way. The script [run_first_selection.py](./source/run_first_selection.py) does the job for you. You need to first setup Lightly Worker on your machine and put the correct configuration values in the script. Please refer to [Install Lightly](https://docs.lightly.ai/docs/install-lightly) and [Set Up Your First Dataset](https://docs.lightly.ai/docs/set-up-your-first-dataset) for more details.
 
 Run the script after your worker is ready:
 
@@ -96,15 +96,15 @@ You have already installed it and can run it from the command line. It needs acc
 
 #### 3.1 Download the selected samples
 
-We can download the selected samples from Lightly Platform. Script [download_samples.py](./source/download_samples.py) does everything for you and downloads the samples to a local directory `samples_for_labelling`.
+We can download the selected samples from the Lightly Platform. The [download_samples.py](./source/download_samples.py) script does everything for you and downloads the samples to a local directory called `samples_for_labelling`.
 
 ```sh
 python source/export_filenames.py
 ```
 
-Lightly Worker created a tag for the selected samples. This script pulls information about samples with this tag and downloads the samples.
+Lightly Worker created a tag for the selected samples. This script pulls information about samples in this tag and downloads the samples.
 
-#### 3.2 Run Label Studio
+#### 3.2 Run LabelStudio
 
 Now we can launch LabelStudio.
 
@@ -158,7 +158,7 @@ Rename the file to `annotation-0.json` and place that in the root directory of t
 
 ## 4. Train a model and prepare for active learning
 
-We can train a classification model with the 30 labelled samples. Script [train_model_1.py](./source/train_model_1.py) loads samples from `annotation-0.json` and performs this task.
+We can train a classification model with the 30 labelled samples. The [train_model_1.py](./source/train_model_1.py) script loads samples from `annotation-0.json` and performs this task.
 
 ```sh
 python source/train_model_1.py
@@ -239,7 +239,7 @@ where files like `cloudy1.json` and `cloudy2.json` are prediction files in `ligh
 
 ## 5. Select and label new samples
 
-With the predictions, Lightly Worker can perform active learning and select new samples for us. Script [run_second_selection.py](./source/run_second_selection.py) does the job.
+With the predictions, Lightly Worker can perform active learning and select new samples for us. The [run_second_selection.py](./source/run_second_selection.py) script does the job.
 
 ```sh
 python source/run_second_selection.py

@@ -31,7 +31,6 @@ def main():
         optimizer=optimizer,
         dataloaders=dataloaders,
         device=device,
-        model_checkpoint=0,
         num_epochs=epochs,
     )
 
