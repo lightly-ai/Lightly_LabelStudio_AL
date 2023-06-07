@@ -3,12 +3,12 @@ This tutorial demonstrates a complete workflow of training a machine learning mo
 
 Assume that we have a new unlabelled dataset and we want to train a new model. We do not want to label all samples because not all of them are valuable. Lightly can help select a good subset of samples to kick off labelling and model training. The loop is as follows:
 
-1. Lightly chooses a subset of the unlabelled to be labelled.
+1. Lightly chooses a subset of the unlabelled samples.
 1. This subset is labelled using LabelStudio.
 1. A machine learning model is trained on the labeled data and generates predictions for the entire dataset.
-1. Lightly consumes predictions and performs Active Learning to choose the next batch to be labelled.
-1. This new batch is labelled in LabelStudio.
-1. The machine learning model is trained on the updated labelled dataset and achieves better performance.
+1. Lightly consumes predictions and performs Active Learning to choose the next batch of samples to be labelled.
+1. This new batch of samples is labelled in LabelStudio.
+1. The machine learning model is re-trained on the enriched labelled dataset and achieves better performance.
 
 
 Let's get started!
@@ -17,8 +17,7 @@ Let's get started!
 Make sure you have an account for the [Lightly Web App](https://app.lightly.ai). 
 You also need to know your API token which is shown under your `USERNAME` -> `Preferences`.
 
-Clone this repo and cd into it.
-Install all python package requirements in the `requirements.txt` file, e.g. with pip.
+Clone this repo and install all python package requirements in the `requirements.txt` file, e.g. with pip.
 ```bash
 git clone https://github.com/lightly-ai/Lightly_LabelStudio_AL.git
 cd Lightly_LabelStudio_AL
