@@ -1,5 +1,5 @@
 ## Tutorial
-This tutorial demonstrates a complete workflow of training a machine learning model with Active Learning using [Lightly](https://www.lightly.ai) and [LabelStudio](https://labelstud.io).
+This tutorial demonstrates a complete workflow of training a machine learning model with the aid of Active Learning using [Lightly](https://www.lightly.ai) and [LabelStudio](https://labelstud.io).
 
 Assume that we have a new unlabelled dataset and we want to train a new model. We do not want to label all samples because not all of them are valuable. Lightly can help select a good subset of samples to kick off labelling and model training. The loop is as follows:
 
