@@ -10,7 +10,6 @@ np.random.seed(SEED)
 
 
 def main():
-    dataset_classes = ["cloudy", "rain", "shine", "sunrise"]
     prepare_training_data("./annotation-1.json")
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     epochs = 25
@@ -18,8 +17,8 @@ def main():
     train_X, train_y, _ = load_data("./train.json")
     val_X, val_y, _ = load_data("./val.json")
     dataloaders = {
-        "train": get_dataloader(dataset_classes, train_X, train_y, batch_size=3),
-        "val": get_dataloader(dataset_classes, val_X, val_y, batch_size=50),
+        "train": get_dataloader(train_X, train_y, batch_size=3),
+        "val": get_dataloader(val_X, val_y, batch_size=50),
     }
 
     model = Model().to(device)

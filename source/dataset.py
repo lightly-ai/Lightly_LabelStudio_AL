@@ -3,7 +3,6 @@ from typing import List
 import numpy as np
 import torch
 from PIL import Image
-from sklearn.preprocessing import LabelEncoder
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
 
@@ -13,11 +12,11 @@ class WeatherDataset(Dataset):
         self,
         image_data: List[Image.Image],
         target: List[int],
-        label_encoder: LabelEncoder,
         transform: bool = None,
     ) -> None:
+        label_classes = {"cloudy": 0, "rain": 1, "shine": 2, "sunrise": 3}
         self.image_data = image_data
-        self.target = torch.LongTensor(label_encoder.transform(target))
+        self.target = torch.LongTensor(label_classes[target])
         self.transform = transform
 
     def __getitem__(self, index):
@@ -35,14 +34,12 @@ class WeatherDataset(Dataset):
 
 
 def get_dataloader(
-    label_classes: List[str],
     X: List[Image.Image],
     y: List[int],
     batch_size: int,
     shuffle: bool = True,
 ) -> DataLoader:
-    le = LabelEncoder().fit(label_classes)
-    dataset = WeatherDataset(X, y, label_encoder=le, transform=transforms.ToTensor())
+    dataset = WeatherDataset(X, y, transform=transforms.ToTensor())
 
     return DataLoader(
         dataset,
