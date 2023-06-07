@@ -16,7 +16,7 @@ class WeatherDataset(Dataset):
     ) -> None:
         label_classes = {"cloudy": 0, "rain": 1, "shine": 2, "sunrise": 3}
         self.image_data = image_data
-        self.target = torch.LongTensor(label_classes[target])
+        self.target = torch.LongTensor([label_classes[t] for t in target])
         self.transform = transform
 
     def __getitem__(self, index):
