@@ -99,7 +99,7 @@ You have already installed it and can run it from the command line. It needs acc
 We can download the selected samples from the Lightly Platform. The [download_samples.py](./source/download_samples.py) script does everything for you and downloads the samples to a local directory called `samples_for_labelling`.
 
 ```sh
-python source/export_filenames.py
+python source/download_samples.py
 ```
 
 Lightly Worker created a tag for the selected samples. This script pulls information about samples in this tag and downloads the samples.
