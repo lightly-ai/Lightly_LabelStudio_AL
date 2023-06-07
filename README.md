@@ -55,6 +55,8 @@ After this, you will find the following files and directories in the current dir
 * `full_train.json`: JSON file that records paths to all files in `train_set`.
 * `val.json`: JSON file that records paths and labels of all files in `val_set`.
 
+These will be used in the following steps.
+
 #### 1.2 Upload training samples to cloud storage
 In this tutorial, samples are stored in the cloud, and Lightly Worker will read the samples from the cloud datasource. For details, please refer to [Set Up Your First Dataset](https://docs.lightly.ai/docs/set-up-your-first-dataset). Here we use Amazon S3 as an example.
 
@@ -76,6 +78,8 @@ s3://bucket/
 ## 2. Select the first batch of samples for labelling
 
 Now, with all unlabelled data samples in your training dataset, we want to select a good subset, label them, and train our classification model with them. Lightly can do this selection for you in a simple way. The script [run_first_selection.py](./source/run_first_selection.py) does the job for you. You need to first setup Lightly Worker in your machine and put the correct configuration values in the script. Please refer to [Install Lightly](https://docs.lightly.ai/docs/install-lightly) and [Set Up Your First Dataset](https://docs.lightly.ai/docs/set-up-your-first-dataset) for more details.
+
+Run the script after your worker is ready:
 
 ```sh
 python source/run_first_selection.py
