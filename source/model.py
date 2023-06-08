@@ -135,7 +135,7 @@ def train_model(
             last_epoch_loss = valid_loss
 
     print(
-        f"Training Completed with best model having loss of {round(valid_loss_min,6)}"
+        f"Training Completed with best model having loss of {round(valid_loss_min, 6)}"
     )
     del data, target
     gc.collect()

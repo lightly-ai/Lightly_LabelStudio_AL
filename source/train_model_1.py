@@ -34,9 +34,7 @@ def main():
     )
 
     train_X, train_y, filenames = load_data("./full_train.json")
-    dataloader = get_dataloader(
-        train_X, train_y, batch_size=50, shuffle=False
-    )
+    dataloader = get_dataloader(train_X, train_y, batch_size=50, shuffle=False)
     predictions = predict(model, device, dataloader)
     dump_lightly_predictions(filenames, predictions)
 
