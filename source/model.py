@@ -52,7 +52,6 @@ def train_model(
     start_time = datetime.datetime.now().replace(microsecond=0)
     model = model.to(device)
 
-    # number of epochs to train the model
     valid_loss_min = np.Inf  # track change in validation loss
     early_stop_cnt = 0
     last_epoch_loss = np.Inf
