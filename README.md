@@ -1,4 +1,21 @@
-## Tutorial
+# New: LightlyStudio
+
+Lightly just launched **[LightlyStudio](https://github.com/lightly-ai/lightly-studio)** an open-source tool designed to unify your data workflows from curation, annotation and management. Built with Rust for speed and efficiency, it lets you work seamlessly with datasets like COCO and ImageNet, even on a MacBook Pro with an M1 chip and 16 GB of memory.
+
+<p align="center">
+  <img alt="LightlyStudio Overview" src="https://storage.googleapis.com/lightly-public/studio/studio_overview.gif" width="70%">
+  <br/>
+  <em>Curate, Annotate, and Manage Your Data in LightlyStudio.</em>
+</p>
+
+
+# Archivation
+
+This tutorial is outdated. We recommend switching over to **[LightlyStudio](https://github.com/lightly-ai/lightly-studio
+)** instead.
+
+
+# Tutorial
 This tutorial demonstrates a complete workflow of training a machine learning model with the aid of Active Learning using [Lightly](https://www.lightly.ai) and [Label Studio](https://labelstud.io).
 
 Assume we have a new unlabelled dataset and want to train a new model. We do not want to label all samples because not all of them are valuable. Lightly can help select a good subset of samples to kick off labeling and model training. The loop is as follows:
